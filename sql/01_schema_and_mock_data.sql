@@ -4,11 +4,20 @@
    Author: Darshan
    Date: May 2026
    Target RDBMS: MS SQL Server
-
    Scale: 100,000+ Rows across tables (Production Simulation)
 ============================================================================ */
 
--- 1. Drop existing tables for clean execution
+-- 0. Create and Use Database
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'EcommerceLifecycleDB')
+BEGIN
+    CREATE DATABASE EcommerceLifecycleDB;
+END;
+GO
+
+USE EcommerceLifecycleDB;
+GO
+
+-- 1. Drop existing tables for clean execution (Order matters for Foreign Keys)
 IF OBJECT_ID('dbo.orders', 'U') IS NOT NULL DROP TABLE dbo.orders;
 IF OBJECT_ID('dbo.clickstream_events', 'U') IS NOT NULL DROP TABLE dbo.clickstream_events;
 IF OBJECT_ID('dbo.users', 'U') IS NOT NULL DROP TABLE dbo.users;
@@ -155,4 +164,4 @@ SELECT
 FROM dbo.users
 WHERE user_id % 3 = 0;
 
-PRINT 'Production-scale schema created. 100,000+ data rows successfully populated.';
+PRINT 'Production-scale schema created. 100,000+ data rows successfully populated in EcommerceLifecycleDB.';
